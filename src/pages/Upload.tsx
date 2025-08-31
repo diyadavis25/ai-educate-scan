@@ -1,11 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { GraduationCap, Upload as UploadIcon, FileText, Key, Image, FileType, ArrowLeft, ArrowRight } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { GraduationCap, Upload as UploadIcon, FileText, Key, Image, FileType, ArrowLeft, ArrowRight, User, IdCard } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Upload = () => {
+  const [studentName, setStudentName] = useState("");
+  const [rollNumber, setRollNumber] = useState("");
   const [answerSheets, setAnswerSheets] = useState<FileList | null>(null);
   const [questionPaper, setQuestionPaper] = useState<FileList | null>(null);
   const [answerKey, setAnswerKey] = useState<FileList | null>(null);
@@ -24,12 +27,12 @@ const Upload = () => {
   };
 
   const handleProceed = () => {
-    if (answerSheets && questionPaper && answerKey) {
+    if (studentName && rollNumber && answerSheets && questionPaper && answerKey) {
       navigate("/analytics");
     }
   };
 
-  const canProceed = answerSheets && questionPaper && answerKey;
+  const canProceed = studentName && rollNumber && answerSheets && questionPaper && answerKey;
 
   return (
     <div className="min-h-screen bg-background">
@@ -63,6 +66,43 @@ const Upload = () => {
           </div>
 
           <div className="space-y-6">
+            {/* Student Information */}
+            <Card className="shadow-medium border-0">
+              <CardHeader>
+                <CardTitle className="flex items-center text-xl">
+                  <User className="w-6 h-6 mr-2 text-primary" />
+                  Student Information
+                </CardTitle>
+                <CardDescription>
+                  Enter student details for assessment tracking
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="student-name">Student Name</Label>
+                    <Input
+                      id="student-name"
+                      type="text"
+                      placeholder="Enter student's full name"
+                      value={studentName}
+                      onChange={(e) => setStudentName(e.target.value)}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="roll-number">Roll Number</Label>
+                    <Input
+                      id="roll-number"
+                      type="text"
+                      placeholder="Enter roll number"
+                      value={rollNumber}
+                      onChange={(e) => setRollNumber(e.target.value)}
+                    />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
             {/* Answer Sheets Upload */}
             <Card className="shadow-medium border-0">
               <CardHeader>
@@ -216,11 +256,11 @@ const Upload = () => {
                     Process Files & Generate Analytics
                     <ArrowRight className="w-5 h-5 ml-2" />
                   </Button>
-                  {!canProceed && (
-                    <p className="text-sm text-muted-foreground">
-                      Please upload all required files to proceed
-                    </p>
-                  )}
+                   {!canProceed && (
+                     <p className="text-sm text-muted-foreground">
+                       Please enter student information and upload all required files to proceed
+                     </p>
+                   )}
                 </div>
               </CardContent>
             </Card>
