@@ -1,0 +1,18 @@
+{
+  "questions": [
+    {
+      "qid": "Q1",
+      "max_score": 5,
+      "keywords": ["photosynthesis", "chlorophyll"],
+      "any_of": ["sunlight", "carbon dioxide"],
+      "penalties": {"wrong_terms": ["respiration"]}
+    },
+    {
+      "qid": "Q2",
+      "max_score": 5,
+      "keywords": ["stomata", "leaf"],
+      "any_of": ["transpiration"],
+      "penalties": {"wrong_terms": ["root"]}
+    }
+  ]
+}
