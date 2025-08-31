@@ -1,8 +1,4 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { GraduationCap, Upload as UploadIcon, FileText, Key, Image, FileType, ArrowLeft, ArrowRight, User, IdCard } from "lucide-react";
+import { GraduationCap, Upload as UploadIcon, FileText, Key, Image, FileType, ArrowLeft, ArrowRight, User } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -35,235 +31,118 @@ const Upload = () => {
   const canProceed = studentName && rollNumber && answerSheets && questionPaper && answerKey;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="border-b bg-card shadow-soft">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <GraduationCap className="w-8 h-8 text-primary" />
-              <h1 className="text-2xl font-bold text-foreground">EduScan AI</h1>
-            </div>
-            <Button variant="outline" onClick={() => navigate("/home")}>
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Home
-            </Button>
+      <header className="border-b bg-white shadow">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <GraduationCap className="w-8 h-8 text-blue-600" />
+            <h1 className="text-2xl font-bold text-gray-800">EduScan AI</h1>
           </div>
+          <button
+            className="flex items-center px-4 py-2 border rounded-md text-gray-700 hover:bg-gray-100"
+            onClick={() => navigate("/home")}
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Home
+          </button>
         </div>
       </header>
 
-      {/* Main Content */}
+      {/* Main */}
       <main className="container mx-auto px-4 py-8">
-        <div className="max-w-4xl mx-auto">
-          {/* Header Section */}
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-foreground mb-4">
-              Upload Assessment Files
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              Upload answer sheets, question paper, and answer key for AI-powered scanning
-            </p>
+        <div className="max-w-4xl mx-auto space-y-8">
+          {/* Title */}
+          <div className="text-center">
+            <h2 className="text-3xl font-bold mb-2">Upload Assessment Files</h2>
+            <p className="text-gray-600">Upload answer sheets, question paper, and answer key for AI-powered scanning</p>
           </div>
 
+          {/* Student Info */}
+          <div className="bg-white shadow rounded-lg p-6">
+            <h3 className="text-xl font-semibold flex items-center mb-4">
+              <User className="w-6 h-6 mr-2 text-blue-600" />
+              Student Information
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="student-name" className="block text-sm font-medium text-gray-700">
+                  Student Name
+                </label>
+                <input
+                  id="student-name"
+                  type="text"
+                  className="mt-1 block w-full rounded-md border px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                  placeholder="Enter student's full name"
+                  value={studentName}
+                  onChange={(e) => setStudentName(e.target.value)}
+                />
+              </div>
+              <div>
+                <label htmlFor="roll-number" className="block text-sm font-medium text-gray-700">
+                  Roll Number
+                </label>
+                <input
+                  id="roll-number"
+                  type="text"
+                  className="mt-1 block w-full rounded-md border px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                  placeholder="Enter roll number"
+                  value={rollNumber}
+                  onChange={(e) => setRollNumber(e.target.value)}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* File Uploads */}
           <div className="space-y-6">
-            {/* Student Information */}
-            <Card className="shadow-medium border-0">
-              <CardHeader>
-                <CardTitle className="flex items-center text-xl">
-                  <User className="w-6 h-6 mr-2 text-primary" />
-                  Student Information
-                </CardTitle>
-                <CardDescription>
-                  Enter student details for assessment tracking
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="student-name">Student Name</Label>
-                    <Input
-                      id="student-name"
-                      type="text"
-                      placeholder="Enter student's full name"
-                      value={studentName}
-                      onChange={(e) => setStudentName(e.target.value)}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="roll-number">Roll Number</Label>
-                    <Input
-                      id="roll-number"
-                      type="text"
-                      placeholder="Enter roll number"
-                      value={rollNumber}
-                      onChange={(e) => setRollNumber(e.target.value)}
-                    />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            {/* Answer Sheets */}
+            <div className="bg-white shadow rounded-lg p-6">
+              <h3 className="text-xl font-semibold flex items-center mb-2">
+                <UploadIcon className="w-6 h-6 mr-2 text-blue-600" />
+                Student Answer Sheets
+              </h3>
+              <p className="text-gray-600 mb-4">Upload scanned answer sheets (JPG, PNG, or PDF)</p>
+              <input id="answer-sheets" type="file" multiple accept=".jpg,.jpeg,.png,.pdf" onChange={handleAnswerSheetsChange} />
+              {answerSheets && <p className="mt-2 text-sm text-gray-500">{answerSheets.length} file(s) selected</p>}
+            </div>
 
-            {/* Answer Sheets Upload */}
-            <Card className="shadow-medium border-0">
-              <CardHeader>
-                <CardTitle className="flex items-center text-xl">
-                  <UploadIcon className="w-6 h-6 mr-2 text-primary" />
-                  Student Answer Sheets
-                </CardTitle>
-                <CardDescription>
-                  Upload scanned answer sheets (Images: JPG, PNG or PDF files)
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center hover:border-primary/50 transition-colors">
-                    <div className="flex flex-col items-center space-y-4">
-                      <div className="p-4 bg-primary/10 rounded-full">
-                        <Image className="w-8 h-8 text-primary" />
-                      </div>
-                      <div>
-                        <Label htmlFor="answer-sheets" className="cursor-pointer">
-                          <span className="text-lg font-medium text-primary hover:text-primary/80">
-                            Click to upload answer sheets
-                          </span>
-                          <p className="text-sm text-muted-foreground mt-1">
-                            Supports multiple files: JPG, PNG, PDF (Max 10MB each)
-                          </p>
-                        </Label>
-                        <input
-                          id="answer-sheets"
-                          type="file"
-                          multiple
-                          accept=".jpg,.jpeg,.png,.pdf"
-                          onChange={handleAnswerSheetsChange}
-                          className="hidden"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  {answerSheets && (
-                    <div className="text-sm text-muted-foreground">
-                      {answerSheets.length} file(s) selected
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+            {/* Question Paper */}
+            <div className="bg-white shadow rounded-lg p-6">
+              <h3 className="text-xl font-semibold flex items-center mb-2">
+                <FileText className="w-6 h-6 mr-2 text-green-600" />
+                Question Paper
+              </h3>
+              <p className="text-gray-600 mb-4">Upload the original question paper</p>
+              <input id="question-paper" type="file" accept=".jpg,.jpeg,.png,.pdf" onChange={handleQuestionPaperChange} />
+              {questionPaper && <p className="mt-2 text-sm text-gray-500">{questionPaper[0].name} selected</p>}
+            </div>
 
-            {/* Question Paper Upload */}
-            <Card className="shadow-medium border-0">
-              <CardHeader>
-                <CardTitle className="flex items-center text-xl">
-                  <FileText className="w-6 h-6 mr-2 text-secondary" />
-                  Question Paper
-                </CardTitle>
-                <CardDescription>
-                  Upload the original question paper for reference
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center hover:border-secondary/50 transition-colors">
-                    <div className="flex flex-col items-center space-y-4">
-                      <div className="p-4 bg-secondary/10 rounded-full">
-                        <FileType className="w-8 h-8 text-secondary" />
-                      </div>
-                      <div>
-                        <Label htmlFor="question-paper" className="cursor-pointer">
-                          <span className="text-lg font-medium text-secondary hover:text-secondary/80">
-                            Click to upload question paper
-                          </span>
-                          <p className="text-sm text-muted-foreground mt-1">
-                            Supports: JPG, PNG, PDF (Max 10MB)
-                          </p>
-                        </Label>
-                        <input
-                          id="question-paper"
-                          type="file"
-                          accept=".jpg,.jpeg,.png,.pdf"
-                          onChange={handleQuestionPaperChange}
-                          className="hidden"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  {questionPaper && (
-                    <div className="text-sm text-muted-foreground">
-                      {questionPaper[0].name} selected
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+            {/* Answer Key */}
+            <div className="bg-white shadow rounded-lg p-6">
+              <h3 className="text-xl font-semibold flex items-center mb-2">
+                <Key className="w-6 h-6 mr-2 text-purple-600" />
+                Answer Key
+              </h3>
+              <p className="text-gray-600 mb-4">Upload the answer key</p>
+              <input id="answer-key" type="file" accept=".jpg,.jpeg,.png,.pdf" onChange={handleAnswerKeyChange} />
+              {answerKey && <p className="mt-2 text-sm text-gray-500">{answerKey[0].name} selected</p>}
+            </div>
+          </div>
 
-            {/* Answer Key Upload */}
-            <Card className="shadow-medium border-0">
-              <CardHeader>
-                <CardTitle className="flex items-center text-xl">
-                  <Key className="w-6 h-6 mr-2 text-accent" />
-                  Answer Key
-                </CardTitle>
-                <CardDescription>
-                  Upload the answer key for accurate assessment
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center hover:border-accent/50 transition-colors">
-                    <div className="flex flex-col items-center space-y-4">
-                      <div className="p-4 bg-accent/10 rounded-full">
-                        <Key className="w-8 h-8 text-accent" />
-                      </div>
-                      <div>
-                        <Label htmlFor="answer-key" className="cursor-pointer">
-                          <span className="text-lg font-medium text-accent hover:text-accent/80">
-                            Click to upload answer key
-                          </span>
-                          <p className="text-sm text-muted-foreground mt-1">
-                            Supports: JPG, PNG, PDF (Max 10MB)
-                          </p>
-                        </Label>
-                        <input
-                          id="answer-key"
-                          type="file"
-                          accept=".jpg,.jpeg,.png,.pdf"
-                          onChange={handleAnswerKeyChange}
-                          className="hidden"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  {answerKey && (
-                    <div className="text-sm text-muted-foreground">
-                      {answerKey[0].name} selected
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Proceed Button */}
-            <Card className="shadow-strong border-0 bg-gradient-card">
-              <CardContent className="p-6">
-                <div className="text-center space-y-4">
-                  <Button
-                    variant="hero"
-                    size="lg"
-                    onClick={handleProceed}
-                    disabled={!canProceed}
-                    className="text-lg px-8 py-6"
-                  >
-                    Process Files & Generate Analytics
-                    <ArrowRight className="w-5 h-5 ml-2" />
-                  </Button>
-                   {!canProceed && (
-                     <p className="text-sm text-muted-foreground">
-                       Please enter student information and upload all required files to proceed
-                     </p>
-                   )}
-                </div>
-              </CardContent>
-            </Card>
+          {/* Proceed */}
+          <div className="bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg shadow p-6 text-center">
+            <button
+              onClick={handleProceed}
+              disabled={!canProceed}
+              className={`px-8 py-3 rounded-md font-semibold flex items-center justify-center mx-auto ${
+                canProceed ? "bg-white text-blue-600 hover:bg-gray-100" : "bg-gray-400 cursor-not-allowed"
+              }`}
+            >
+              Process Files & Generate Analytics
+              <ArrowRight className="w-5 h-5 ml-2" />
+            </button>
+            {!canProceed && <p className="mt-2 text-sm">Please enter student info and upload all required files</p>}
           </div>
         </div>
       </main>
